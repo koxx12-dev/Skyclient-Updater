@@ -52,7 +52,7 @@ public class Main{
                 int z = tstarray.stream().mapToInt(v -> v).min().orElse(Integer.MAX_VALUE);
 
                 if (tstarray.get(y) == z) {
-                    if (!(z < 7)){
+                    if (!(z < 4) && (z < 15)){
                         to_be_updated_fn.add(filelist[i]);
                         to_be_updated_n.add(namesJson.get(y));
                     }
