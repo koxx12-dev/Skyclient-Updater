@@ -17,17 +17,24 @@ public class Main{
         List<String> namesJson = new ArrayList<>();
         List<String> to_be_updated_fn = new ArrayList<>();
         List<String> to_be_updated_n = new ArrayList<>();
+        List<String> to_be_updated_fn_p = new ArrayList<>();
+        List<String> to_be_updated_n_p = new ArrayList<>();
 
         int errors = 0;
 
-        PrintStream out = new PrintStream(new FileOutputStream("update.txt"));
-        System.setOut(out);
 
         String is = request("https://raw.githubusercontent.com/nacrt/SkyblockClient-REPO/main/files/mods.json");
 
         String fldmds = System.getenv("APPDATA") + "\\.minecraft\\skyclient\\mods";
 
         String[] filelist = new File(fldmds).list();
+
+        System.out.println();
+
+        if (System.console() == null) {
+            javax.swing.JOptionPane.showMessageDialog( null, "Run run.bat u dumbass\nnot this jar" );
+            System.exit(0);
+        }
 
         if (filelist == null) {
             System.exit(0);
@@ -49,7 +56,7 @@ public class Main{
                 int z = tstarray.stream().mapToInt(v -> v).min().orElse(Integer.MAX_VALUE);
 
                 if (tstarray.get(y) == z) {
-                    if (!(z < 4) && (z < 15)){
+                    if (!(z < 1) && (z < 15)){
                         to_be_updated_fn.add(filelist[i]);
                         to_be_updated_n.add(namesJson.get(y));
                     }
@@ -58,37 +65,52 @@ public class Main{
 
         }
 
+        System.out.println("Found "+to_be_updated_n.size()+" mods that need to be updated");
         for (int i = 0; i < to_be_updated_n.size(); i++) {
             for (int x = 0; x < namesJson.size(); x++) {
+                if (("" + namesJson.get(x)).equals("" + to_be_updated_n.get(i))) {
+                    JSONObject obj = new JSONObject(arry.get(x).toString());
+                    String dpname = (String) obj.get("display");
+                    System.out.println("");
+                    System.out.println("Do you want to update "+dpname+"\n"+"From: " + to_be_updated_fn.get(i) + "\n" + "To: " + to_be_updated_n.get(i));
+
+                    Scanner sc= new Scanner(System.in); //System.in is a standard input stream
+                    System.out.print("[y/n]: ");
+                    String str= sc.nextLine();
+                    if (str.equalsIgnoreCase("n") || str.equalsIgnoreCase("no")) {
+
+                    } else {
+                        to_be_updated_n_p.add(to_be_updated_n.get(i));
+                        to_be_updated_fn_p.add(to_be_updated_fn.get(i));
+                    }
+                }
+            }
+        }
+
+        for (int i = 0; i < to_be_updated_n_p.size(); i++) {
+            for (int x = 0; x < namesJson.size(); x++) {
                 try {
-
-                    if (("" + namesJson.get(x)).equals("" + to_be_updated_n.get(i))) {
-
-
+                   if (("" + namesJson.get(x)).equals("" + to_be_updated_n_p.get(i))) {
                         JSONObject obj = new JSONObject(arry.get(x).toString());
                         String dpname = (String) obj.get("display");
                         String url;
-                        File todel = new File(fldmds+"\\"+to_be_updated_fn.get(i));
-
+                        File todel = new File(fldmds+"\\"+to_be_updated_fn_p.get(i));
                         if(obj.get("id") == "rpm" || obj.get("id") == "hudcaching") {
-                            url = "https://github.com/nacrt/SkyblockClient-REPO/blob/main/files/mods/"+to_be_updated_fn.get(i)+"?raw=true";
+                            url = "https://github.com/nacrt/SkyblockClient-REPO/blob/main/files/mods/"+to_be_updated_fn_p.get(i)+"?raw=true";
                         } else {
                             url = (String) obj.get("url");
                         }
-
-
-
                         try {
                              Download(""+url, fldmds + "\\" + namesJson.get(x));
                              todel.delete();
+                            System.out.println("");
                              System.out.println("Updated: " + dpname);
-                             System.out.println("From: " + to_be_updated_fn.get(i) + "\n" + "To: " + to_be_updated_n.get(i));
+                             System.out.println("From: " + to_be_updated_fn_p.get(i) + "\n" + "To: " + to_be_updated_n_p.get(i));
                         } catch (IOException e) {
                             e.getStackTrace();
                             System.out.println("Failed to download "+namesJson.get(x)+"\n Try again later");
                             errors = errors + 1;
                         }
-
                     }
                 } catch (Exception e) {
                     System.out.println("Exception at: "+x);
@@ -96,7 +118,7 @@ public class Main{
             }
         }
 
-
+        System.out.println("");
         if (errors == 1) {
             System.out.println("Done\n"+errors+" download failed");
         } else {
