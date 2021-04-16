@@ -1,9 +1,6 @@
 package io.github.koxx12_dev.skyclient_updater;
 
 
-
-
-import org.apache.commons.io.FileUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -82,14 +79,10 @@ public class Main{
 
 
                         try {
-                            if (!url.contains("sk1er")) {
-                                FileUtils.copyURLToFile(new URL(url), new File(fldmds + "\\" + namesJson.get(x)));
-                                todel.delete();
-                                System.out.println("Updated: " + dpname);
-                                System.out.println("From: " + to_be_updated_fn.get(i) + "\n" + "To: " + to_be_updated_n.get(i));
-                            } else {
-                                System.out.println("Ignoring: " + to_be_updated_fn.get(i) + "\n" + "Reason: Downloading sk1er's is broken for me (always 403)");
-                            }
+                             Download(""+url, fldmds + "\\" + namesJson.get(x));
+                             todel.delete();
+                             System.out.println("Updated: " + dpname);
+                             System.out.println("From: " + to_be_updated_fn.get(i) + "\n" + "To: " + to_be_updated_n.get(i));
                         } catch (IOException e) {
                             e.getStackTrace();
                             System.out.println("Failed to download "+namesJson.get(x)+"\n Try again later");
@@ -118,5 +111,18 @@ public class Main{
         InputStream inputStream = conn.getInputStream();
         Scanner s = new Scanner(inputStream).useDelimiter("\\A");
         return s.hasNext() ? s.next() : "";
+    }
+
+    public static void Download(String URL, String Loc) throws IOException {
+        java.net.URL url = new URL(URL);
+        URLConnection urlConnection = url.openConnection();
+        urlConnection.setRequestProperty("User-Agent", "NING/1.0");
+        BufferedInputStream inputStream = new BufferedInputStream(urlConnection.getInputStream());
+        FileOutputStream fileOS = new FileOutputStream(Loc);
+        byte[] data = new byte[1024];
+        int byteContent;
+        while ((byteContent = inputStream.read(data, 0, 1024)) != -1) {
+            fileOS.write(data, 0, byteContent);
+        }
     }
 }
