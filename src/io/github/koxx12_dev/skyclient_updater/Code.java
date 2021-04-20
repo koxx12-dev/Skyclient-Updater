@@ -93,7 +93,7 @@ public class Code {
                         String dpname = (String) obj.get("display");
                         String url;
                         File todel = new File(fldmds+"\\"+to_be_updated_fn_p.get(i));
-                        if(obj.get("id") == "rpm" || obj.get("id") == "hudcaching") {
+                        if(obj.get("id") == "rpm") {
                             url = "https://github.com/nacrt/SkyblockClient-REPO/blob/main/files/mods/"+to_be_updated_fn_p.get(i)+"?raw=true";
                         } else {
                             url = (String) obj.get("url");
