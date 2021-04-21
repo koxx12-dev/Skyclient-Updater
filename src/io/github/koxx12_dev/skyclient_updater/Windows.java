@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class Code {
+public class Windows {
     public static void main(String[] args) throws IOException {
         List<String> namesJson = new ArrayList<>();
         List<String> to_be_updated_fn = new ArrayList<>();
@@ -28,11 +28,6 @@ public class Code {
         String[] filelist = new File(fldmds).list();
 
         System.out.println();
-
-        if (System.console() == null) {
-            javax.swing.JOptionPane.showMessageDialog( null, "Run run.bat u dumbass\nnot this jar" );
-            System.exit(0);
-        }
 
         if (filelist == null) {
             System.exit(0);
