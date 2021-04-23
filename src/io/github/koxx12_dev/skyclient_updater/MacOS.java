@@ -49,7 +49,7 @@ public class MacOS {
                 int z = tstarray.stream().mapToInt(v -> v).min().orElse(Integer.MAX_VALUE);
 
                 if (tstarray.get(y) == z) {
-                    if (!(z < 1) && (z < 15)){
+                    if (!(z < 1) && (z < 7)){
                         to_be_updated_fn.add(filelist[i]);
                         to_be_updated_n.add(namesJson.get(y));
                     }
@@ -67,7 +67,7 @@ public class MacOS {
                     System.out.println("");
                     System.out.println("Do you want to update "+dpname+"\n"+"From: " + to_be_updated_fn.get(i) + "\n" + "To: " + to_be_updated_n.get(i));
 
-                    Scanner sc= new Scanner(System.in); //System.in is a standard input stream
+                    Scanner sc= new Scanner(System.in);
                     System.out.print("[y/n]: ");
                     String str= sc.nextLine();
                     if (str.equalsIgnoreCase("n") || str.equalsIgnoreCase("no")) {

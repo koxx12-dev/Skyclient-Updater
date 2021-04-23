@@ -13,6 +13,11 @@ public class Main{
 
     public static void main(String[] args) throws IOException {
         Console console = System.console();
+
+        System.out.println(OSBase.replaceWithOsPath("Sus||Sus"));
+
+        System.exit(0);
+
         if (SystemUtils.IS_OS_WINDOWS) {
             if (console == null && !GraphicsEnvironment.isHeadless()){
                 String fileloc = Main.class.getProtectionDomain().getCodeSource().getLocation().toString().substring(6);

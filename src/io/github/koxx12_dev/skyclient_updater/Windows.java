@@ -49,7 +49,7 @@ public class Windows {
                 int z = tstarray.stream().mapToInt(v -> v).min().orElse(Integer.MAX_VALUE);
 
                 if (tstarray.get(y) == z) {
-                    if (!(z < 1) && (z < 15)){
+                    if (!(z < 1) && (z < 7)){
                         to_be_updated_fn.add(filelist[i]);
                         to_be_updated_n.add(namesJson.get(y));
                     }
