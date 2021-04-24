@@ -14,14 +14,10 @@ public class Main{
     public static void main(String[] args) throws IOException {
         Console console = System.console();
 
-        System.out.println(OSBase.replaceWithOsPath("Sus||Sus"));
-
-        System.exit(0);
-
         if (SystemUtils.IS_OS_WINDOWS) {
             if (console == null && !GraphicsEnvironment.isHeadless()){
                 String fileloc = Main.class.getProtectionDomain().getCodeSource().getLocation().toString().substring(6);
-                Runtime.getRuntime().exec(new String[]{"cmd","/c","start","cmd","/k","java -jar \"" + fileloc + "\""});
+                Runtime.getRuntime().exec(new String[]{"cmd","/c","start","cmd","/k","java -jar \"" + fileloc.replaceAll("%20"," ") + "\""});
             } else {
                 Windows.main(new String[0]);
                 System.out.println("Program has ended, please type 'exit' to close the console");
