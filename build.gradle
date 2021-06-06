@@ -1,0 +1,27 @@
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+dependencies {
+
+    compile fileTree(dir: 'lib', include: '*.jar')
+    compile fileTree(dir: 'additions', include: '*.jar')
+
+}
+
+archivesBaseName = 'Skyclient-Updater'
+version = '2.0.0'
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'io.github.koxx12_dev.skyclient_updater.Main'
+        attributes 'Version': project.version
+    }
+
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+
+    exclude 'META-INF/*.RSA', 'META-INF/*.SF', 'META-INF/*.DSA'
+
+}
